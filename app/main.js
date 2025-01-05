@@ -48,9 +48,15 @@ function getEchoCmd(args) {
 }
 
 function getTypeCmd(cmdName) {
-  cmdPath = PATH_CONST.split(":").find(ele => ele.includes(cmdName));
-  if (cmdPath !== undefined) {
-    return `${cmdName} is ${cmdPath}`;
-  } 
+  //cmdPath = PATH_CONST.split(":").find(ele => ele.includes(cmdName));
+  cmdPath = PATH_CONST.split(":");
+  for (path of cmdPath) {
+    if (path.split("/").includes(cmdName)) {
+      return `${cmdName} is ${path}`;
+    }
+  }
+  // if (cmdPath !== undefined) {
+  //   return `${cmdName} is ${cmdPath}`;
+  // } 
   return `${cmdName}: not found`;
 }

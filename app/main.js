@@ -5,6 +5,8 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const PATH = process.env.PATH_TEST;
+
 prepareShell();
 rl.on("line", (answer) => {
   answer = answer.trim();
@@ -19,6 +21,7 @@ function executeCommand(command) {
     process.exit(0);
   }
   
+  // console.log(`*${cmd}*****${args}*`);
   let res = `${command}: command not found`;
   if (cmd === "echo") {
     res = getEchoCmd(args);
@@ -45,9 +48,7 @@ function getEchoCmd(args) {
 }
 
 function getTypeCmd(cmdName) {
-  path = process.env.PATH
-  cmdPath = path.split(":").find(ele => ele.includes(cmdName));
-
+  cmdPath = PATH.split(":").find(ele => ele.includes(cmdName));
   if (cmdPath !== undefined) {
     return `${cmdName} is ${cmdPath}`;
   } 

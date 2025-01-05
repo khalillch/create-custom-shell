@@ -7,6 +7,7 @@ const rl = readline.createInterface({
 
 prepareShell();
 rl.on("line", (answer) => {
+  handleExit(answer);
   checkCommand(answer);
   prepareShell();
 });
@@ -18,3 +19,9 @@ function checkCommand(command) {
 function prepareShell() {
   process.stdout.write("$ ");
 };
+
+function handleExit(answer) {
+  if (answer.trim() === "exit 0"){
+    process.exit(0);
+  }
+}

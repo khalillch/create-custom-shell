@@ -5,7 +5,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const PATH_CONST = process.env.PATH_TEST;
+const PATH_CONST = process.env.PATH;
 
 prepareShell();
 rl.on("line", (answer) => {

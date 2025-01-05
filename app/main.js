@@ -51,7 +51,8 @@ function getTypeCmd(cmdName) {
   //const PATH_CONST = process.env.PATH;
 
   
-  cmdPath = process.env.PATH.split(":");
+  var paths = process.env.PATH
+  cmdPath = paths.split(":");
   //console.log(cmdPath);
   for (path of cmdPath) {
     if (path.split("/").includes(cmdName)) {

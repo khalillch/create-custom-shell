@@ -5,8 +5,6 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const CMD_NAMES = ["type", "echo", "exit"]
-
 prepareShell();
 rl.on("line", (answer) => {
   answer = answer.trim();
@@ -21,13 +19,13 @@ function executeCommand(command) {
     process.exit(0);
   }
   
+  let res = `${command}: command not found`;
   if (cmd === "echo") {
-    console.log(args.join(" "));
+    res = getEchoCmd(args);
   } else if (cmd === "type") {
-    printType(args[0]);
-  } else {
-    console.log(`${command}: command not found`);
+    res = getTypeCmd(args[0]);
   }
+  console.log(res);
 };
 
 function prepareShell() {
@@ -42,10 +40,16 @@ function getCmd(answer) {
   return {cmd, args};
 }
 
-function printType(cmdName) {
-  if (CMD_NAMES.includes(cmdName)) {
-    console.log(`${cmdName} is a shell builtin`);
-  } else {
-    console.log(`${cmdName}: not found`);
-  }
+function getEchoCmd(args) {
+  return args.join(" ");
+}
+
+function getTypeCmd(cmdName) {
+  path = process.env.PATH
+  cmdPath = path.split(":").find(ele => ele.includes(cmdName));
+
+  if (cmdPath !== undefined) {
+    return `${cmdName} is ${cmdPath}`;
+  } 
+  return `${cmdName}: not found`;
 }

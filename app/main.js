@@ -5,7 +5,6 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const PATH_CONST = process.env.PATH;
 
 prepareShell();
 rl.on("line", (answer) => {
@@ -49,7 +48,10 @@ function getEchoCmd(args) {
 
 function getTypeCmd(cmdName) {
   //cmdPath = PATH_CONST.split(":").find(ele => ele.includes(cmdName));
-  cmdPath = PATH_CONST.split(":");
+  //const PATH_CONST = process.env.PATH;
+
+  
+  cmdPath = process.env.PATH.split(":");
   console.log(cmdPath);
   for (path of cmdPath) {
     if (path.split("/").includes(cmdName)) {

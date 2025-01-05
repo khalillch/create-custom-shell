@@ -5,7 +5,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const PATH = process.env.PATH_TEST;
+const PATH_CONST = process.env.PATH;
 
 prepareShell();
 rl.on("line", (answer) => {
@@ -48,7 +48,7 @@ function getEchoCmd(args) {
 }
 
 function getTypeCmd(cmdName) {
-  cmdPath = PATH.split(":").find(ele => ele.includes(cmdName));
+  cmdPath = PATH_CONST.split(":").find(ele => ele.includes(cmdName));
   if (cmdPath !== undefined) {
     return `${cmdName} is ${cmdPath}`;
   } 

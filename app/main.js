@@ -7,21 +7,31 @@ const rl = readline.createInterface({
 
 prepareShell();
 rl.on("line", (answer) => {
-  handleExit(answer);
-  checkCommand(answer);
+  answer = answer.trim();
+  executeCommand(answer);
   prepareShell();
 });
 
-function checkCommand(command) {
-  console.log(`${command}: command not found`);
+function executeCommand(command) {
+  const [cmd, args] = getCmd(command);
+  if (command === "exit 0"){
+    process.exit(0);
+  }
+  if (cmd == "echo") {
+    console.log(args.join(" "));
+  } else {
+    console.log(`${command}: command not found`);
+  }
 };
 
 function prepareShell() {
   process.stdout.write("$ ");
 };
 
-function handleExit(answer) {
-  if (answer.trim() === "exit 0"){
-    process.exit(0);
-  }
+function getCmd(answer) {
+  let args = answer.split(/\s+/);
+  cmd = args[0];
+  args.shift();
+
+  return [cmd, args];
 }

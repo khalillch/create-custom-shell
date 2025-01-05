@@ -5,11 +5,16 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question("$ ", (answer) => {
+prepareShell();
+rl.on("line", (answer) => {
   checkCommand(answer);
-  rl.close();
+  prepareShell();
 });
 
 function checkCommand(command) {
   console.log(`${command}: command not found`);
+};
+
+function prepareShell() {
+  process.stdout.write("$ ");
 };

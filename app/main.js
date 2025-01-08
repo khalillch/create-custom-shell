@@ -5,11 +5,11 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const { execSync } = require('child_process');
-
+var paths = process.env.PATH
 
 prepareShell();
 rl.on("line", (answer) => {
+  paths = process.env.PATH
   answer = answer.trim();
   executeCommand(answer);
   prepareShell();
@@ -53,8 +53,7 @@ function getTypeCmd(cmdName) {
   //const PATH_CONST = process.env.PATH;
 
   
-  cmdPath = execSync('echo $PATH', { encoding: 'utf8' }).trim();
-  //console.log(cmdPath);
+  cmdPath = paths.split(":");
   //console.log(cmdPath);
   for (path of cmdPath) {
     if (path.split("/").includes(cmdName)) {

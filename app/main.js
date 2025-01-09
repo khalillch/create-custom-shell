@@ -1,15 +1,15 @@
 const readline = require("readline");
+const path = require("path");
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-var paths = process.env.PATH
+const CMDS = ["type", "echo", "exit"]
 
 prepareShell();
 rl.on("line", (answer) => {
-  paths = process.env.PATH
   answer = answer.trim();
   executeCommand(answer);
   prepareShell();
@@ -49,19 +49,17 @@ function getEchoCmd(args) {
 }
 
 function getTypeCmd(cmdName) {
-  //cmdPath = PATH_CONST.split(":").find(ele => ele.includes(cmdName));
-  //const PATH_CONST = process.env.PATH;
+  let found = false;
+  if(CMDS.includes(cmdName)) {
+    return `${cmdName} is a shell builtin`;
+  } else {
+    const paths = process.env.PATH.split(path.delimiter);
 
-  
-  cmdPath = paths.split(":");
-  //console.log(cmdPath);
-  for (path of cmdPath) {
-    if (path.split("/").includes(cmdName)) {
-      return `${cmdName} is ${path}`;
+    for (let path of paths) {
+      if (path.split("/").includes(cmdName)) {
+        return `${cmdName} is ${path}`;
+      }
     }
   }
-  // if (cmdPath !== undefined) {
-  //   return `${cmdName} is ${cmdPath}`;
-  // } 
   return `${cmdName}: not found`;
 }

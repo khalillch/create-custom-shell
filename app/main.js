@@ -1,5 +1,6 @@
 const readline = require("readline");
 const path = require("path");
+const fs = require("fs");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -55,9 +56,10 @@ function getTypeCmd(cmdName) {
   } else {
     const paths = process.env.PATH.split(path.delimiter);
 
-    for (let path of paths) {
-      if (path.split("/").includes(cmdName)) {
-        return `${cmdName} is ${path}`;
+    for (let p of paths) {
+      const fullPath = path.join(p, cmdName);
+      if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+        return `${cmdName} is ${fullPath}`;
       }
     }
   }

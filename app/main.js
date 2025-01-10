@@ -30,7 +30,7 @@ function executeCommand(command) {
   } else if (cmd === "type") {
     res = getTypeCmd(args[0]);
   } else if (cmd === "pwd") {
-    res = __dirname 
+    res = process.cwd() 
   } else {
     res = execExternalProgram(cmd, command)
   }

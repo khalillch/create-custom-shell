@@ -56,9 +56,10 @@ function getCmd(answer) {
 }
 
 function getEchoCmd(args, command) {
-  part = command.split("'");
-  if (part.length === 3 && part[0].trim() === "echo" && part[2].trim() === "") {
-    return part[1]
+  let part = command.split("'");
+  let n = part.length;
+  if (n >= 3 && part[0].trim() === "echo" && part[n-1].trim() === "") {
+    return  part.slice(1, n-1).join();
   }
   return args.join(" ");
 }

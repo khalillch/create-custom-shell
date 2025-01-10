@@ -68,7 +68,7 @@ function getTypeCmd(cmdName) {
   if(CMDS.includes(cmdName)) {
     return `${cmdName} is a shell builtin`;
   } else if (cmdFullPath !== "") {
-     `${cmdName} is ${cmdFullPath}`;
+    return `${cmdName} is ${cmdFullPath}`;
   }
   return `${cmdName}: not found`;
 }

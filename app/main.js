@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const CMDS = ["type", "echo", "exit", "pwd"]
+const CMDS = ["type", "echo", "exit", "pwd", "cd"]
 
 prepareShell();
 rl.on("line", (answer) => {
@@ -31,6 +31,11 @@ function executeCommand(command) {
     res = getTypeCmd(args[0]);
   } else if (cmd === "pwd") {
     res = process.cwd() 
+  } else if (cmd === "cd") {
+    res = execCd(args)
+    if (res === undefined) {
+      return;      
+    }
   } else {
     res = execExternalProgram(cmd, command)
   }
@@ -81,4 +86,12 @@ function execExternalProgram(cmd, command) {
       return `${command}: command not found`
     }
     return execSync(command).toString().trim();
+}
+
+function execCd(args) {
+  const path = args[0]
+  if (args.length > 1 || fs.existsSync(path) === false) {
+    return `cd: <${path}>: No such file or directory`
+  }
+  process.chdir(path)
 }

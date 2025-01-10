@@ -1,6 +1,7 @@
 const readline = require("readline");
 const path = require("path");
 const fs = require("fs");
+const { exec, execSync } = require('child_process');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -23,13 +24,15 @@ function executeCommand(command) {
     process.exit(0);
   }
   
-  // console.log(`*${cmd}*****${args}*`);
   let res = `${command}: command not found`;
   if (cmd === "echo") {
     res = getEchoCmd(args);
   } else if (cmd === "type") {
     res = getTypeCmd(args[0]);
+  } else {
+    res = execExternalProgram(cmd, command)
   }
+  
   console.log(res);
 };
 
@@ -49,19 +52,31 @@ function getEchoCmd(args) {
   return args.join(" ");
 }
 
-function getTypeCmd(cmdName) {
-  let found = false;
-  if(CMDS.includes(cmdName)) {
-    return `${cmdName} is a shell builtin`;
-  } else {
-    const paths = process.env.PATH.split(path.delimiter);
-
-    for (let p of paths) {
-      const fullPath = path.join(p, cmdName);
-      if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
-        return `${cmdName} is ${fullPath}`;
-      }
+function getCmdFullPath(cmd) {
+  const paths = process.env.PATH.split(path.delimiter);
+  for (let p of paths) {
+    const fullPath = path.join(p, cmd);
+    if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+      return `${cmd} is ${fullPath}`;
     }
   }
+  return "";
+}
+
+function getTypeCmd(cmdName) {
+  cmdFullPath = getCmdFullPath(cmdName);
+  if(CMDS.includes(cmdName)) {
+    return `${cmdName} is a shell builtin`;
+  } else if (cmdFullPath !== "") {
+     `${cmdName} is ${cmdFullPath}`;
+  }
   return `${cmdName}: not found`;
+}
+
+function execExternalProgram(cmd, command) {
+    cmdFullPath = getCmdFullPath(cmd);
+    if (cmdFullPath === "") {
+      return `${command}: command not found`
+    }
+    return execSync(command).toString();
 }

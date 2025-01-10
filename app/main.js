@@ -57,7 +57,6 @@ function getCmd(answer) {
 
 function getEchoCmd(args, command) {
   part = command.split("'");
-  console.log(part)
   if (part.length === 3 && part[0].trim() === "echo" && part[2].trim() === "") {
     return part[1]
   }

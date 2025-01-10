@@ -57,7 +57,7 @@ function getCmdFullPath(cmd) {
   for (let p of paths) {
     const fullPath = path.join(p, cmd);
     if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
-      return `${cmd} is ${fullPath}`;
+      return `${fullPath}`;
     }
   }
   return "";

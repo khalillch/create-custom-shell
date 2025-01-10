@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const CMDS = ["type", "echo", "exit"]
+const CMDS = ["type", "echo", "exit", "pwd"]
 
 prepareShell();
 rl.on("line", (answer) => {

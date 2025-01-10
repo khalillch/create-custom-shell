@@ -91,7 +91,7 @@ function execExternalProgram(cmd, command) {
 function execCd(args) {
   const path = args[0]
   if (args.length > 1 || fs.existsSync(path) === false) {
-    return `cd: <${path}>: No such file or directory`
+    return `cd: ${path}: No such file or directory`
   }
   process.chdir(path)
 }

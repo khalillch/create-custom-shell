@@ -1,7 +1,7 @@
 const readline = require("readline");
 const path = require("path");
 const fs = require("fs");
-const { exec, execSync } = require('child_process');
+const { execSync } = require('child_process');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -29,6 +29,8 @@ function executeCommand(command) {
     res = getEchoCmd(args);
   } else if (cmd === "type") {
     res = getTypeCmd(args[0]);
+  } else if (cmd === "pwd") {
+    res = __dirname 
   } else {
     res = execExternalProgram(cmd, command)
   }

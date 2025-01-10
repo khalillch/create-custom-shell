@@ -26,7 +26,7 @@ function executeCommand(command) {
   
   let res = `${command}: command not found`;
   if (cmd === "echo") {
-    res = getEchoCmd(args);
+    res = getEchoCmd(args, command);
   } else if (cmd === "type") {
     res = getTypeCmd(args[0]);
   } else if (cmd === "pwd") {
@@ -55,7 +55,12 @@ function getCmd(answer) {
   return {cmd, args};
 }
 
-function getEchoCmd(args) {
+function getEchoCmd(args, command) {
+  part = command.split("'");
+  console.log(part)
+  if (part.length === 3 && part[0].trim() === "echo" && part[2].trim() === "") {
+    return part[1]
+  }
   return args.join(" ");
 }
 

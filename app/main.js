@@ -78,5 +78,5 @@ function execExternalProgram(cmd, command) {
     if (cmdFullPath === "") {
       return `${command}: command not found`
     }
-    return execSync(command).toString();
+    return execSync(command).toString().trim();
 }

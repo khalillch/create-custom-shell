@@ -28,7 +28,7 @@ function executeCommand(command) {
   if (cmd === "echo") {
     res = handleArgs(args);
   } else if (cmd === "type") {
-    res = getTypeCmd(args);
+    res = execTypeCmd(args);
   } else if (cmd === "pwd") {
     res = process.cwd() 
   } else if (cmd === "cd") {
@@ -68,7 +68,7 @@ function getCmdFullPath(cmd) {
   return "";
 }
 
-function getTypeCmd(cmdName) {
+function execTypeCmd(cmdName) {
   cmdFullPath = getCmdFullPath(cmdName);
   if(CMDS.includes(cmdName)) {
     return `${cmdName} is a shell builtin`;
@@ -125,7 +125,7 @@ function handleArgs(args) {
       last_indx = i + 1;
     }
   }
-  res = res + args.slice(last_indx, args.length).split(/\s+/).join(" ");
+  res = res + handleBackSlash(args.slice(last_indx, args.length));
   return res.trim();
 }
 
@@ -140,6 +140,27 @@ function handleDoubleQuotes(str) {
     } else {
       res += str[i];
       i += 1;
+    }
+  }
+  return res;
+}
+
+function handleBackSlash(str) {
+  let i = 0;
+  let res = "";
+  let n = str.length;
+  while(i < n) {
+    if (str[i] === "\\" && i < n-1) {
+      res += str[i+1];
+      i += 2;
+    } else if (str[i] == " ") {
+      res += str[i];
+      while (i < n && str[i] === " ") {
+        i ++;
+      }
+    } else {
+      res += str[i];
+      i ++;
     }
   }
   return res;

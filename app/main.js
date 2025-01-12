@@ -19,8 +19,7 @@ rl.on("line", (answer) => {
 });
 
 function executeCommand(command) {
-  const {cmd, args} = getCmd(command);
-  
+  const {cmd, args} = getCmdAndArgs(command);
   if (command === "exit 0"){
     process.exit(0);
   }
@@ -48,22 +47,14 @@ function prepareShell() {
   process.stdout.write("$ ");
 };
 
-function getCmd(answer) {
-  let firstSpaceIndex =answer.indexOf(" ");
-
-  let cmd = answer.substring(0, firstSpaceIndex).trim();
-  let args = answer.substring(firstSpaceIndex + 1).trim();
-  
-  return {cmd, args};
-}
-
-function getEchoCmd(args) {
-  let part = args.split("'");
-  let n = part.length;
-  if (n >= 3 && part[n-1].trim() === "") {
-    return  part.join("");
+function getCmdAndArgs(fullCommand) {
+  let firstSpaceIndex = fullCommand.indexOf(" ");
+  if (fullCommand.indexOf(" ") === -1) {
+    return {cmd: fullCommand};
   }
-  return args.join(" ");
+  let cmd = fullCommand.substring(0, firstSpaceIndex).trim();
+  let args = fullCommand.substring(firstSpaceIndex + 1).trim();
+  return {cmd, args};
 }
 
 function getCmdFullPath(cmd) {
@@ -96,13 +87,12 @@ function execExternalProgram(cmd, args) {
 }
 
 function execCd(args) {
-  const path = args
-  if (path === "~") {
+  if (args === "~") {
     process.chdir(process.env.HOME);
-  } else if (args.length > 1 || fs.existsSync(path) === false) {
-    return `cd: ${path}: No such file or directory`
+  } else if (fs.existsSync(args) === false) {
+    return `cd: ${args}: No such file or directory`
   } else {
-    process.chdir(path)
+    process.chdir(args)
   }
 }
 

@@ -92,7 +92,7 @@ function execExternalProgram(cmd, args) {
     if (cmdFullPath === "") {
       return `${cmd}" "${args}: command not found`
     }
-    return execSync(cmdFullPath + args).toString().trim();
+    return execSync(cmdFullPath + " " + args).toString().trim();
 }
 
 function execCd(args) {
@@ -130,7 +130,7 @@ function handleArgs(args) {
       if (last_indx !== first_sq) {
         between_space = " ";
       }
-      res += args.slice(first_sq+1, i) + between_space;
+      res += between_space + args.slice(first_sq+1, i);
       first_sq = -1;
       last_indx = i + 1;
     }

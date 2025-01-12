@@ -101,7 +101,9 @@ function handleArgs(args) {
   let first_dq = -1;
   let first_sq = -1;
   let last_indx = 0;
-
+  if (args[0] !== "\"" && args[0] !== "'"){
+    return handleBackSlash(args);
+  }
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "\"" && first_dq === -1 && first_sq === -1) {
       first_dq = i;

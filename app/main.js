@@ -77,19 +77,13 @@ function getTypeCmd(cmdName) {
   }
   return `${cmdName}: not found`;
 }
+
 function execExternalProgram(cmd, command) {
   cmdFullPath = getCmdFullPath(cmd);
   if (cmdFullPath === "") {
     return `${command}: command not found`
   }
   return execSync(command).toString().trim();
-}
-function execExternalProgram(cmd, args) {
-    cmdFullPath = getCmdFullPath(cmd);
-    if (cmdFullPath === "") {
-      return `${cmd}" "${args}: command not found`
-    }
-    return execSync(cmdFullPath + " " + args).toString().trim();
 }
 
 function execCd(args) {

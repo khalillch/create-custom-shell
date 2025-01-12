@@ -133,8 +133,9 @@ function handleArgs(args) {
 function handleDoubleQuotes(str) {
   let res = "";
   let i = 0;
-  while (i < str.length) {
-    if (str[i] == "\\" && i < str.length - 1 && SPECIAL_CHARS.includes(str[i+1])) {
+  let n = str.length;
+  while (i < n) {
+    if (str[i] == "\\" && i < n - 1 && SPECIAL_CHARS.includes(str[i+1])) {
       res += str[i];
       i += 2;
     } else {

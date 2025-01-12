@@ -37,7 +37,7 @@ function executeCommand(command) {
       return;      
     }
   } else {
-    res = execExternalProgram(cmd, args)
+    res = execExternalProgram(cmd, command)
   }
   
   console.log(res);
@@ -77,7 +77,13 @@ function getTypeCmd(cmdName) {
   }
   return `${cmdName}: not found`;
 }
-
+function execExternalProgram(cmd, command) {
+  cmdFullPath = getCmdFullPath(cmd);
+  if (cmdFullPath === "") {
+    return `${command}: command not found`
+  }
+  return execSync(command).toString().trim();
+}
 function execExternalProgram(cmd, args) {
     cmdFullPath = getCmdFullPath(cmd);
     if (cmdFullPath === "") {

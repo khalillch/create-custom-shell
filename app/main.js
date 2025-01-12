@@ -116,13 +116,21 @@ function handleArgs(args) {
     if (args[i] === "\"" && first_dq === -1 && first_sq === -1) {
       first_dq = i;
     } else if (args[i] === "\"" && first_dq !== -1) {
-      res += handleDoubleQuotes(args.slice(first_dq+1, i)) + " ";
+      let between_space = "";
+      if (last_indx !== first_dq) {
+        between_space = " ";
+      }
+      res += between_space + handleDoubleQuotes(args.slice(first_dq+1, i));
       first_dq = -1;
       last_indx = i + 1;
     } else if (args[i] === "'" && first_dq === -1 && first_sq === -1) {
       first_sq = i;
     } else if (args[i] === "'" && first_sq !== -1) {
-      res += args.slice(first_sq+1, i) + " ";
+      let between_space = "";
+      if (last_indx !== first_sq) {
+        between_space = " ";
+      }
+      res += args.slice(first_sq+1, i) + between_space;
       first_sq = -1;
       last_indx = i + 1;
     }

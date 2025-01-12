@@ -92,7 +92,7 @@ function execExternalProgram(cmd, args) {
     if (cmdFullPath === "") {
       return `${cmd}" "${args}: command not found`
     }
-    return execSync(cmdFullPath + handleArgs(args)).toString().trim();
+    return execSync(cmdFullPath + args).toString().trim();
 }
 
 function execCd(args) {
